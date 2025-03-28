@@ -1,6 +1,5 @@
 package ru.netology.pages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 import ru.netology.data.DataHelper;
@@ -34,7 +33,7 @@ public class LoginPage {
     }
 
     public void getBlockedMessage() {
-        invalidDataMessage.shouldBe(visible).shouldHave(text("Система заблокирована"));
+        invalidDataMessage.shouldBe(visible).shouldHave(text("Личный кабинет заблокирован"));
     }
 
     public void cleanInputFields() {

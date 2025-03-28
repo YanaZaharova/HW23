@@ -1,7 +1,8 @@
 package ru.netology.data;
 
-import lombok.val;
+import lombok.SneakyThrows;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 
 import java.sql.*;
 
@@ -13,39 +14,39 @@ public class SQLHelper {
     }
 
     private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/app", "app", "pass");
+        return DriverManager.getConnection(System.getProperty("db.url"), "app", "pass");
     }
 
+    @SneakyThrows
+    public static DataHelper.VerificationCode getAuthCode() {
+        var code = "SELECT code FROM auth_codes ORDER BY created DESC LIMIT 1;";
+        try (var conn = getConnection()) {
+            return runner.query(conn, code, new BeanHandler<>(DataHelper.VerificationCode.class));
+        }
+    }
+
+    @SneakyThrows
     public static void cleanAllData() {
-        val auth = "DELETE FROM auth_codes;";
-        val transactions = "DELETE FROM card_transactions;";
-        val card = "DELETE FROM cards;";
-        val user = "DELETE FROM users;";
-        val runner = new QueryRunner();
-        try (val conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/app", "app", "pass"
-        );
+        var auth = "DELETE FROM auth_codes;";
+        var transactions = "DELETE FROM card_transactions;";
+        var card = "DELETE FROM cards;";
+        var user = "DELETE FROM users;";
+        try (var conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/db", "app", "pass"
+        )
         ) {
             runner.update(conn, auth);
             runner.update(conn, transactions);
             runner.update(conn, card);
             runner.update(conn, user);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
         }
     }
 
-    public static String getAuthCode() {
-        try (val conn = getConnection()) {
-            try (Statement statement = conn.createStatement()) {
-                try (ResultSet resultSet = statement.executeQuery("SELECT code FROM auth_codes;")) {
-                    while (resultSet.next()) return resultSet.getString("code");
-                }
-            }
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+    @SneakyThrows
+    public static void cleanCodes() {
+        try (var conn = getConnection()) {
+            runner.execute(conn,"DELETE FROM auth_codes");
         }
-        return null;
     }
 }
+

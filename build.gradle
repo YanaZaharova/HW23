@@ -21,5 +21,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    systemProperty 'db.url', System.getProperty('db.url', "jdbc:mysql://localhost:3306/db")
     systemProperty 'chromeoptions.prefs', System.getProperty('chromeoptions.prefs', "profile.password_manager_leak_detection=false")
 }
