@@ -27,6 +27,14 @@ public class DataHelper {
         return new AuthInfo("vasya", invPass);
     }
 
+    public static String getErrorMessage() {
+        return " Ошибка Ошибка! Неверно указан логин или пароль";
+    }
+
+    public static String getBlockedMessage() {
+        return "Личный кабинет заблокирован";
+    }
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

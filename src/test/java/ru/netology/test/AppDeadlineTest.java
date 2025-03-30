@@ -41,13 +41,13 @@ public class AppDeadlineTest {
     void shouldBlockIfPasswordIsInvalid() {
         val loginPage = new LoginPage();
         val authInfo = DataHelper.getInvalidPassword();
-        loginPage.invalidLogin(authInfo);
-        loginPage.getInvalidDataMessage();
+        loginPage.logIn(authInfo);
+        loginPage.getErrorOrBlockedMessage(DataHelper.getErrorMessage());
         loginPage.cleanInputFields();
-        loginPage.invalidLogin(authInfo);
-        loginPage.getInvalidDataMessage();
+        loginPage.logIn(authInfo);
+        loginPage.getErrorOrBlockedMessage(DataHelper.getErrorMessage());
         loginPage.cleanInputFields();
-        loginPage.invalidLogin(authInfo);
-        loginPage.getBlockedMessage();
+        loginPage.logIn(authInfo);
+        loginPage.getErrorOrBlockedMessage(DataHelper.getBlockedMessage());
     }
 }

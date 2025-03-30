@@ -31,10 +31,7 @@ public class SQLHelper {
         var transactions = "DELETE FROM card_transactions;";
         var card = "DELETE FROM cards;";
         var user = "DELETE FROM users;";
-        try (var conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/db", "app", "pass"
-        )
-        ) {
+        try (var conn = getConnection()) {
             runner.update(conn, auth);
             runner.update(conn, transactions);
             runner.update(conn, card);

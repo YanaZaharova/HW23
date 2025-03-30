@@ -15,25 +15,18 @@ public class LoginPage {
     private SelenideElement invalidDataMessage = $("[data-test-id=error-notification]");
 
     public VerificationPage validLogin(DataHelper.AuthInfo info) {
-        loginField.setValue(info.getLogin());
-        passwordField.setValue(info.getPassword());
-        loginButton.click();
+        logIn(info);
         return new VerificationPage();
     }
 
-    public void invalidLogin(DataHelper.AuthInfo loginInfo) {
+    public void logIn(DataHelper.AuthInfo loginInfo) {
         loginField.setValue(loginInfo.getLogin());
         passwordField.setValue(loginInfo.getPassword());
         loginButton.click();
     }
 
-    public void getInvalidDataMessage() {
-        invalidDataMessage.shouldBe(visible).shouldHave(text(" Ошибка Ошибка! Неверно указан логин или пароль"));
-
-    }
-
-    public void getBlockedMessage() {
-        invalidDataMessage.shouldBe(visible).shouldHave(text("Личный кабинет заблокирован"));
+    public void getErrorOrBlockedMessage(String message) {
+        invalidDataMessage.shouldBe(visible).shouldHave(text(message));
     }
 
     public void cleanInputFields() {
